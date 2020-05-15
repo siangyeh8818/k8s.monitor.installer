@@ -1,0 +1,33 @@
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: elasticsearch-exporter
+  namespace: ${NS_DEFAULT}
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: elasticsearch-exporter
+    spec:
+      containers:
+      - name: elasticsearch-exporter
+        image: justwatch/elasticsearch_exporter:1.0.2
+        command:
+          - '/bin/elasticsearch_exporter'
+          - '-es.uri=http://${ELASTICSEARCH_ADDRESS}'
+          - 'es.all=true'
+          - 'es.cluster_settings=true'
+          - 'es.indices=true'
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 9108
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /etc/localtime
+          name: time
+      volumes:
+        - name: time
+          hostPath:
+            path: /etc/localtime
