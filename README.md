@@ -6,12 +6,12 @@
 
 用變數去控制安裝行為
 
-###How to build
+### How to build
 ```
 skaffold build
 ```
 
-###How to deploy
+### How to deploy
 ```
 cd kubernetes 
 ./run_job.sh
